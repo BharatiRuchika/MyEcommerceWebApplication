@@ -1,0 +1,11 @@
+const express = require("express");
+var router = express.Router();
+const order = require("../modules/orders");
+const {isAuthenticatedUser,authorizeRoles} = require("../middlewares/auth");
+router.post("/neworder",isAuthenticatedUser,order.newOrder);
+module.exports = router;
+router.get("/singleorder/:id",isAuthenticatedUser,order.getSingleOrder);
+router.get("/myorders",isAuthenticatedUser,order.getOrders);
+router.get("/admin/orders",isAuthenticatedUser,authorizeRoles("admin"),order.allOrders);
+router.put("/admin/orders/:id",isAuthenticatedUser,authorizeRoles("admin"),order.updateOrder);
+router.delete("/admin/orders/:id",isAuthenticatedUser,authorizeRoles("admin"),order.deleteOrder);
