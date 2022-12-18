@@ -15,7 +15,7 @@ export const createOrder = (order)=>async(dispatch,getState)=>{
              "Content-Type":"application/json"
          }
        }
-       const {data} = await axios.post("https://my-ecommerce-application.herokuapp.com/order/neworder",order,config);
+       const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/order/neworder",order,config);
        console.log("order Data",data);
        dispatch({
            type:CREATE_ORDER_SUCCESS,
@@ -37,7 +37,7 @@ export const myOrders = ()=>async(dispatch,getState)=>{
            type:MY_ORDERS_REQUEST
        })
        
-       const {data} = await axios.get("https://my-ecommerce-application.herokuapp.com/order/myorders");
+       const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/order/myorders");
        console.log("data",data);
        dispatch({
            type:MY_ORDERS_SUCCESS,
@@ -60,7 +60,7 @@ export const orderDetails = (id)=>async(dispatch,getState)=>{
            type:ORDER_DETAILS_REQUEST
        })
        
-const {data} = await axios.get(`https://my-ecommerce-application.herokuapp.com/order/singleorder/${id}`);
+const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/order/singleorder/${id}`);
        console.log("data",data);
        dispatch({
            type:ORDER_DETAILS_SUCCESS,
@@ -84,7 +84,7 @@ export const getAllOrders = ()=>async(dispatch,getState)=>{
            type:ALL_ORDERS_REQUEST
        })
        
-const {data} = await axios.get(`https://my-ecommerce-application.herokuapp.com/order/admin/orders`);
+const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/order/admin/orders`);
        console.log("data",data);
        dispatch({
            type:ALL_ORDERS_SUCCESS,
@@ -109,7 +109,7 @@ export const updateOrder = (id,orderData)=>async(dispatch,getState)=>{
              "Content-Type":"application/json"
          }
        }
-       const {data} = await axios.put(`https://my-ecommerce-application.herokuapp.com/order/admin/orders/${id}`,orderData,config);
+       const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/order/admin/orders/${id}`,orderData,config);
        console.log("updateData",data);
        dispatch({
            type:UPDATE_ORDER_SUCCESS,
@@ -128,7 +128,7 @@ export const deleteOrder = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_ORDER_REQUEST })
 
-        const { data } = await axios.delete(`https://my-ecommerce-application.herokuapp.com/order/admin/orders/${id}`)
+        const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/order/admin/orders/${id}`)
    console.log("deleteData",data.success);
         dispatch({
             type: DELETE_ORDER_SUCCESS,

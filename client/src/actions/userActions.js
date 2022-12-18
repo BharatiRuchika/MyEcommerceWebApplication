@@ -34,7 +34,7 @@ export const login = (email,password)=>async(dispatch)=>{
           'Content-Type':'application/json'
       }
     }
-const {data} = await axios.post("https://my-ecommerce-application.herokuapp.com/auth/login",{email,password},config)
+const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/auth/login",{email,password},config)
 console.log("loginuserdata",data);
 dispatch({
     type:LOGIN_SUCCESS,
@@ -63,7 +63,7 @@ export const register = (userData)=>async(dispatch)=>{
            'Content-Type':'multipart/form-data'
        }
      }
- const {data} = await axios.post("https://my-ecommerce-application.herokuapp.com/auth/register",userData,config)
+ const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/auth/register",userData,config)
  console.log("registerdata",data);
  dispatch({
      type:REGISTER_USER_SUCCESS,
@@ -87,7 +87,7 @@ export const register = (userData)=>async(dispatch)=>{
           type:LOAD_USER_REQUEST
      })
     
- const {data} = await axios.get("https://my-ecommerce-application.herokuapp.com/auth/me");
+ const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/me");
  console.log("loaduserdata",data);
 
  dispatch({
@@ -108,7 +108,7 @@ export const register = (userData)=>async(dispatch)=>{
  export const logoutUser = ()=>async(dispatch)=>{
     console.log("im in load user");
    try{
-  const {data} = await axios.get("https://my-ecommerce-application.herokuapp.com/auth/logout");
+  const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/logout");
 console.log("logoutuserdata",data);
 dispatch({
     type:LOGOUT_SUCCESS
@@ -134,7 +134,7 @@ export const updateProfile = (userData)=>async(dispatch)=>{
            'Content-Type':'multipart/form-data'
        }
      }
- const {data} = await axios.put("https://my-ecommerce-application.herokuapp.com/auth/me/update",userData,config)
+ const {data} = await axios.put("https://my-ecommerce-web-application.vercel.app/auth/me/update",userData,config)
  console.log("userdata",data);
  dispatch({
      type:UPDATE_PROFILE_SUCCESS,
@@ -161,7 +161,7 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
            'Content-Type':'application/json'
        }
      }
- const {data} = await axios.put("https://my-ecommerce-application.herokuapp.com/auth/password/updatepassword",passwords,config)
+ const {data} = await axios.put("https://my-ecommerce-web-application.vercel.app/auth/password/updatepassword",passwords,config)
  console.log("userdata",data);
  dispatch({
      type:UPDATE_PASSWORD_SUCCESS,
@@ -189,7 +189,7 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
            'Content-Type':'application/json'
        }
      }
- const {data} = await axios.put(`https://my-ecommerce-application.herokuapp.com/auth/password/reset/${token}`,passwords,config)
+ const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/auth/password/reset/${token}`,passwords,config)
  console.log("userdata",data);
  dispatch({
      type:NEW_PASSWORD_SUCCESS,
@@ -218,7 +218,7 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
            'Content-Type':'application/json'
        }
      }
- const {data} = await axios.post("https://my-ecommerce-application.herokuapp.com/auth/password/forgot",email,config)
+ const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/auth/password/forgot",email,config)
  console.log("userdata",data);
  dispatch({
      type:FORGOT_PASSWORD_SUCCESS,
@@ -241,7 +241,7 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
          type:ALL_USERS_REQUEST
     })
    
-const {data} = await axios.get("https://my-ecommerce-application.herokuapp.com/auth/admin/users");
+const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/admin/users");
 console.log("Allusersdata",data);
 
 dispatch({
@@ -271,7 +271,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`https://my-ecommerce-application.herokuapp.com/auth/admin/user/${id}`, userData, config)
+        const { data } = await axios.put(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`, userData, config)
 
         dispatch({
             type: UPDATE_USER_SUCCESS,
@@ -290,7 +290,7 @@ export const getUserDetails = (id) => async (dispatch) => {
     try {
 
     dispatch({ type: USER_DETAILS_REQUEST })
- const { data } = await axios.get(`https://my-ecommerce-application.herokuapp.com/auth/admin/user/${id}`)
+ const { data } = await axios.get(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`)
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -312,7 +312,7 @@ export const deleteUser = (id) => async (dispatch) => {
     try {
 
  dispatch({ type: DELETE_USER_REQUEST })
-  const { data } = await axios.delete(`https://my-ecommerce-application.herokuapp.com/auth/admin/user/${id}`);
+  const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`);
   console.log("deleteData",data);  
   dispatch({
             type: DELETE_USER_SUCCESS,
