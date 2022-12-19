@@ -59,7 +59,7 @@ function App() {
           'Authorization': `${token}`
         }
       }
-      const { data } = await axios.get("http://localhost:3001/user/payment/stripeApi", config);
+      const { data } = await axios.get("https://my-ecommerce-web-application.vercel.app/user/payment/stripeApi", config);
       console.log("stripeData", data);
       setStripeApiKey(data.stripeApiKey);
     }

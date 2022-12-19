@@ -16,7 +16,7 @@ export const createOrder = (order,token)=>async(dispatch,getState)=>{
        dispatch({
            type:CREATE_ORDER_REQUEST
        })
-       const {data} = await axios.post("http://localhost:3001/order/neworder",order,config);
+       const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/order/neworder",order,config);
     //    console.log("order Data",data);
        dispatch({
            type:CREATE_ORDER_SUCCESS,
@@ -46,7 +46,7 @@ export const myOrders = (token)=>async(dispatch,getState)=>{
         }
       }
        
-       const {data} = await axios.get("http://localhost:3001/order/myorders",config);
+       const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/order/myorders",config);
     //    console.log("data",data);
        dispatch({
            type:MY_ORDERS_SUCCESS,
@@ -75,7 +75,7 @@ export const orderDetails = (id,token)=>async(dispatch,getState)=>{
             'Authorization': `${token}`
         }
       }
-const {data} = await axios.get(`http://localhost:3001/order/singleorder/${id}`,config);
+const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/order/singleorder/${id}`,config);
     //    console.log("data",data);
        dispatch({
            type:ORDER_DETAILS_SUCCESS,
@@ -106,7 +106,7 @@ export const getAllOrders = (token)=>async(dispatch,getState)=>{
            type:ALL_ORDERS_REQUEST
        })
        
-const {data} = await axios.get(`http://localhost:3001/order/admin/orders`,config);
+const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/order/admin/orders`,config);
     //    console.log("data",data);
        dispatch({
            type:ALL_ORDERS_SUCCESS,
@@ -132,7 +132,7 @@ export const updateOrder = (id,orderData,token)=>async(dispatch,getState)=>{
        dispatch({
            type:UPDATE_ORDER_REQUEST
        })
-       const {data} = await axios.put(`http://localhost:3001/order/admin/orders/${id}`,orderData,config);
+       const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/order/admin/orders/${id}`,orderData,config);
     //    console.log("updateData",data);
        dispatch({
            type:UPDATE_ORDER_SUCCESS,
@@ -157,7 +157,7 @@ export const deleteOrder = (id,token) => async (dispatch) => {
 
         dispatch({ type: DELETE_ORDER_REQUEST })
 
-        const { data } = await axios.delete(`http://localhost:3001/order/admin/orders/${id}`,config)
+        const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/order/admin/orders/${id}`,config)
 //    console.log("deleteData",data.success);
         dispatch({
             type: DELETE_ORDER_SUCCESS,

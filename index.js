@@ -26,11 +26,11 @@ var app = express();
 app.use(cookieParser());
 
 const cors = require("cors");
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials:true,
-  optionSuccessStatus:200
-}));
+// app.use(cors({
+//   origin: "http://localhost:3000",
+//   credentials:true,
+//   optionSuccessStatus:200
+// }));
 const corsOptions = {
   origin: true,
   credentials: true,
