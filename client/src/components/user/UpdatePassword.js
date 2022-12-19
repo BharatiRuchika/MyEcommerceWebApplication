@@ -13,7 +13,7 @@ const [newPassword,setNewPassword] = useState('');
 
 const alert = useAlert();
 const dispatch = useDispatch();
-const {user} = useSelector(state=>state.auth);
+const {user,token} = useSelector(state=>state.auth);
 const {isUpdated,loading,error} = useSelector(state=>state.user);
 
 useEffect(() => {
@@ -38,7 +38,7 @@ const submitHandler = (e)=>{
  formData.set("newPassword",newPassword);
 
  
- dispatch(updatePassword(formData))
+ dispatch(updatePassword(formData,token))
 }
 
 

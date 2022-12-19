@@ -5,7 +5,7 @@ const Search = ({history}) => {
   
     const searchHandler = (e)=>{
       e.preventDefault();
-      console.log("keyword",keyword);
+      // console.log("keyword",keyword);
       if(keyword.trim()){
           history.push(`/search/${keyword}`)
       }else{

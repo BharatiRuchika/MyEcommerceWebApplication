@@ -39,6 +39,7 @@ export const productReducers = (state = {products:[]},action)=>{
 }
 
 export const productDetailsReducers = (state={product:{}},action)=>{
+    // console.log("im in productdetailsReducres");
     switch(action.type){
        case PRODUCTS_DETAILS_REQUEST:{
            return {
@@ -71,6 +72,7 @@ export const productDetailsReducers = (state={product:{}},action)=>{
 }
 
 export const newReviewReducers = (state={},action)=>{
+    // console.log("im in new riview reducer");
     switch(action.type){
        case NEW_REVIEW_REQUEST:{
            return {

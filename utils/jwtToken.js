@@ -11,13 +11,26 @@ const sendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + 7 * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true
+    httpOnly: true,
+    secure: false
   }
-  res.status(statusCode).cookie('token', token, options).json({
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: 30 * 24 * 60 * 60 * 1000, //validity of 30 days
+  }).json({
     success: true,
     token,
     user
-  })
+  });
+// const token = req.header("Authorization");
+
+  // res.status(statusCode).cookie('token', token, options).json({
+  //   success: true,
+  //   token,
+  //   user
+  // })
 
   // res.cookie('token',token,options).send({success:true,token,user})
 }

@@ -17,11 +17,12 @@ const ProcessOrder = ({match}) => {
     const dispatch = useDispatch();
     const {loading,order={}} = useSelector(state=>state.orderDetails)
   const {ShippingInfo,orderItems,paymentInfo,User,totalPrice,orderStatus} = order;
-   const {error,isUpdated} = useSelector(state=>state.updateOrder)
+   const {error,isUpdated} = useSelector(state=>state.updateOrder);
+   const {token} = useSelector(state=>state.auth)
    const orderId = match.params.id;
    
  useEffect(() => {
-      dispatch(orderDetails(orderId));
+      dispatch(orderDetails(orderId,token));
       
         if(error){
          alert.error(error);
@@ -39,9 +40,9 @@ const ProcessOrder = ({match}) => {
         const formData = new FormData();
         formData.set("status",status);
       
-        console.log("formData",formData);
-        console.log("id",id)
-        dispatch(updateOrder(id,formData))
+        // console.log("formData",formData);
+        // console.log("id",id)
+        dispatch(updateOrder(id,formData,token))
        }
       
     const shippingDetails = ShippingInfo && `${ShippingInfo.address},${ShippingInfo.city},${ShippingInfo.postalCode},${ShippingInfo.country}`;

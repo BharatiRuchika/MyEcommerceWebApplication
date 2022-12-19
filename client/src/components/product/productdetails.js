@@ -18,13 +18,13 @@ const ProductDetails = ({match}) => {
     const alert = useAlert();
     console.log(match.params.id);
     const { loading, error, product } = useSelector(state => state.productDetails)
-    const {user} = useSelector(state=>state.auth);
+    const {user,token} = useSelector(state=>state.auth);
     const {error:reviewError,success} = useSelector(state=>state.newReview);
-    console.log("loading",loading);
-    console.log("product",product);
+    // console.log("loading",loading);
+    // console.log("product",product);
     useEffect(() => {
-        console.log("im in useEffect");
-        console.log(match.params.id);
+        // console.log("im in useEffect");
+        // console.log(match.params.id);
         dispatch(getProductDetails(match.params.id))
         if(error){
            alert.error(error)
@@ -42,7 +42,7 @@ const ProductDetails = ({match}) => {
     }, [dispatch,alert,error,reviewError,success])
     const increaseQty = ()=>{
         const count = document.querySelector(".count");
-        console.log("stock",product.stock)
+        // console.log("stock",product.stock)
         if(count.valueAsNumber>=product.stock)
         return
         const qty = count.valueAsNumber + 1;
@@ -63,7 +63,7 @@ const ProductDetails = ({match}) => {
    
     function setUserRatings() {
         const stars = document.querySelectorAll('.star');
-  console.log("stars",stars);
+//   console.log("stars",stars);
         stars.forEach((star, index) => {
             star.starValue = index + 1;
 
@@ -99,15 +99,20 @@ const ProductDetails = ({match}) => {
     }
 }
  const reviewHandler = ()=>{
-        console.log("im in review handker");
-        console.log("rating",rating);
-        console.log("comment",comment);
-        console.log("productId",match.params.id);
+        // console.log("im in review handker");
+        // console.log("rating",rating);
+        // console.log("comment",comment);
+        // console.log("productId",match.params.id);
         const formData = new FormData();
         formData.set('rating', rating);
         formData.set('comment', comment);
         formData.set('productId', match.params.id);
-        dispatch(newReview(formData));
+        const body = {
+            rating,
+            comment,
+            productId:match.params.id
+        }
+        dispatch(newReview(formData,token));
     }
     return (<>
   {loading?<Loader/>:(

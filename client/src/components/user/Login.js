@@ -11,24 +11,24 @@ const Login = ({ history, location }) => {
   const alert = useAlert();
   const dispatch = useDispatch();
   const { isAuthenticated, loading, error } = useSelector(state => state.auth);
-  console.log("location", location);
+  // console.log("location", location);
   const redirect = location.search ? location.search.split('=')[1] : '/'
-  console.log("redirect", redirect);
+  // console.log("redirect", redirect);
 
   useEffect(() => {
     if (isAuthenticated) {
       history.push(redirect);
     }
-    console.log("im in login");
+    // console.log("im in login");
     if (error) {
-      console.log("error is true", error);
+      // console.log("error is true", error);
       alert.error(error);
       dispatch(clearErrors());
     }
   }, [dispatch, alert, isAuthenticated, error, history])
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("im in submit handler");
+    // console.log("im in submit handler");
     console.log(email, password);
     dispatch(login(email, password))
   }

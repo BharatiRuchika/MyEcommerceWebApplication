@@ -3,19 +3,24 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("./catchAsyncErrors");
-exports.isAuthenticatedUser = catchAsyncErrors(async(req,res,next)=>{
-    const {token} = req.cookies;
-    console.log("token",token);
+exports.isAuthenticatedUser =async(req,res,next)=>{
+    // const token = req.cookies.token;
+    const token = req.header("Authorization");
+    console.log("cookie",req.cookie);
+    // console.log("token",token);
+    console.log("headers",req.header);
+    console.log("headers",req.header("Authorization"));
     if(!token){
        console.log("im in token unfefines");
        return next(new ErrorHandler('You have to login first to access this resource', 401));
     }
+    console.log("secret",process.env.JWT_SECRET);
     const decoded = jwt.verify(token,process.env.JWT_SECRET);
     console.log("id",decoded.id);
     req.user = await User.findById(decoded.id);
     console.log("user",req.user);
     next();
-})
+}
 //handling users roles
 exports.authorizeRoles = (...roles)=>{
     try{

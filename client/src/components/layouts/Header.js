@@ -12,7 +12,7 @@ const Header=()=>{
   const dispatch = useDispatch();
   const { user, loading } = useSelector(state => state.auth);
   const {cartItems} = useSelector(state=>state.cart)
-  console.log("cartItems",cartItems);
+  // console.log("cartItems",cartItems);
   // console.log("user",user);
   // console.log("loading",loading);
   const logoutHandler = ()=>{

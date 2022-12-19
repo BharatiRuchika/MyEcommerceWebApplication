@@ -15,8 +15,9 @@ const ProductReviews = () => {
     const dispatch = useDispatch();
 
     const { error, reviews } = useSelector(state => state.productReviews);
+    const { token } = useSelector(state => state.auth);
     const { isDeleted, error: deleteError } = useSelector(state => state.review)
-     console.log("reviews",reviews);
+    //  console.log("reviews",reviews);
     useEffect(() => {
 
         if (error) {
@@ -30,7 +31,7 @@ const ProductReviews = () => {
         }
 
         if (productId !== '') {
-            dispatch(getProductReviews(productId))
+            dispatch(getProductReviews(productId,token))
         }
 
         if (isDeleted) {
@@ -48,7 +49,7 @@ const ProductReviews = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log("im in submit handler");
+        // console.log("im in submit handler");
         dispatch(getProductReviews(productId))
     }
 
@@ -84,8 +85,8 @@ const ProductReviews = () => {
         }
 
         reviews.forEach(review => {
-            console.log(review);
-            console.log(review.rating);
+            // console.log(review);
+            // console.log(review.rating);
             data.rows.push({
                 id: review._id,
                 rating: review.rating,

@@ -14,7 +14,7 @@ const { createSliderWithTooltip } = slider;
 const Range = createSliderWithTooltip(slider.Range);
 
 const Home = ({ match }) => {
-    console.log("im in home componennt");
+    // console.log("im in home componennt");
     const [currentPage, setCurrentPage] = useState(1)
     const [price, setPrice] = useState([1, 1000])
     const [category, setCategory] = useState("");
@@ -37,15 +37,15 @@ const Home = ({ match }) => {
     const alert = useAlert();
     const { filteredProductsCount, loading, products, error, productsCount, resPerPage } = useSelector(state => state.products);
     const keyword = match.params.keyword
-    console.log("filteredProductsCount", filteredProductsCount);
+    // console.log("filteredProductsCount", filteredProductsCount);
     useEffect(() => {
-        console.log("im in useEffetc");
+        // console.log("im in useEffetc");
         if (error) {
             return alert.error(error);
         }
-        console.log("current page home", currentPage)
+        // console.log("current page home", currentPage)
         dispatch(getProducts(keyword, currentPage, price, category, rating));
-        console.log("products", products);
+        // console.log("products", products);
     }, [dispatch, alert, error, keyword, currentPage, price, category, rating])
     function setCurrentPageNo(pageNumber) {
         setCurrentPage(pageNumber)
@@ -54,7 +54,7 @@ const Home = ({ match }) => {
     if (filteredProductsCount) {
         count = filteredProductsCount;
     }
-    console.log("count", count);
+    // console.log("count", count);
     return (
         //         <>
         //             {loading ? <Loader /> : (

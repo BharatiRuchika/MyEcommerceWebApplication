@@ -11,13 +11,14 @@ import "../../App.css";
 const Dashboard = () => {
     const dispatch = useDispatch();
     const {products} = useSelector(state=>state.products);
-    const { users } = useSelector(state => state.allUsers)
+    const { users } = useSelector(state => state.allUsers);
+    const { token } = useSelector(state => state.auth)
     const {orders,loading,amount} = useSelector(state=>state.allOrder);
 
     useEffect(() => {
         dispatch(getAdminProducts())
-        dispatch(getAllOrders());
-        dispatch(getAllUsers());
+        dispatch(getAllOrders(token));
+        dispatch(getAllUsers(token));
     }, [dispatch])
     let outOfStock = 0;
     products.forEach(product=>{

@@ -22,7 +22,7 @@ const Payment = ({ history }) => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.auth);
+  const { user,token } = useSelector(state => state.auth);
   const { cartItems, ShippingInfo } = useSelector(state => state.cart);
   const { error } = useSelector(state => state.order);
   const order = {
@@ -47,20 +47,21 @@ const Payment = ({ history }) => {
   }, [dispatch, error, error])
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("amount", Math.round(orderInfo.totalPrice * 100));
-    console.log("orderInfo", orderInfo);
-    console.log("paymentData", paymentData)
-    console.log("im in submit handler");
+    // console.log("amount", Math.round(orderInfo.totalPrice * 100));
+    // console.log("orderInfo", orderInfo);
+    // console.log("paymentData", paymentData)
+    // console.log("im in submit handler");
     document.querySelector("#pay_btn").disabled = true;
     let res;
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
+    const config={
+      headers:{
+          'Content-Type':'application/json',
+          'Authorization': `${token}`
       }
     }
     // res = await axios.post('/api/v1/payment/process', paymentData, config)
-    res = await axios.post("/user/payment", paymentData, config);
-    console.log("res", res);
+    res = await axios.post("http://localhost:3001/user/payment", paymentData, config);
+    // console.log("res", res);
     const clientSecret = res.data.client_secret;
     if (!stripe || !elements) {
       return;
@@ -74,9 +75,9 @@ const Payment = ({ history }) => {
         }
       }
     })
-    console.log("paymentIntent", result.paymentIntent);
+    // console.log("paymentIntent", result.paymentIntent);
     if (result.error) {
-      console.log("im in result errpr");
+      // console.log("im in result errpr");
       alert.error(result.error.message);
       document.querySelector("#pay_btn").disabled = false;
     } else {
@@ -85,13 +86,13 @@ const Payment = ({ history }) => {
           id: result.paymentIntent.id,
           status: result.paymentIntent.status
         }
-        dispatch(createOrder(order))
+        dispatch(createOrder(order,token))
         history.push("/success")
       } else {
         alert.error("there is some issue while payment processing");
       }
     }
-    console.log(clientSecret);
+    // console.log(clientSecret);
     try {
 
     } catch (error) {

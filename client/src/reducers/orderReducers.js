@@ -35,7 +35,7 @@ export const MyOrdersReducers = (state = { orders: [] },action)=>{
               loading:true,
         }
         case MY_ORDERS_SUCCESS:
-            console.log("im in order suceess reducer");
+            // console.log("im in order suceess reducer");
             console.log(action.payload);
             return {
                 
@@ -66,7 +66,7 @@ export const orderDetailReducer = (state = { order: [] },action)=>{
                 loading:true,
           }
           case ORDER_DETAILS_SUCCESS:
-              console.log("im in order suceess reducer");
+            //   console.log("im in order suceess reducer");
               console.log(action.payload);
               return {
                   
@@ -97,7 +97,7 @@ export const orderDetailReducer = (state = { order: [] },action)=>{
                 loading:true,
           }
           case ALL_ORDERS_SUCCESS:
-              console.log("im in order suceess reducer");
+            //   console.log("im in order suceess reducer");
               console.log(action.payload);
               return {
                   loading:false,
@@ -138,7 +138,7 @@ export const orderDetailReducer = (state = { order: [] },action)=>{
                 isUpdated:action.payload
             }
             case DELETE_ORDER_SUCCESS:
-           console.log("im in delete order case");
+        //    console.log("im in delete order case");
            console.log(action.payload)
                 return {
                     ...state,

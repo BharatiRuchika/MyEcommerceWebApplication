@@ -42,8 +42,8 @@ const UpdateProduct = ({match,history}) => {
     ]
     useEffect(() => {
         if(product && product._id!==productId){
-            console.log(product._id,productId);
-            console.log("im here");
+            // console.log(product._id,productId);
+            // console.log("im here");
 
             dispatch(getProductDetails(productId));
         }else{
@@ -69,11 +69,11 @@ const UpdateProduct = ({match,history}) => {
        dispatch({type:UPDATE_PRODUCT_RESET})
      }
 
-        console.log("im in list orders");
+        // console.log("im in list orders");
      }, [error,alert,isUpdated,history,dispatch,product,productId])
      const submitHandler = (e)=>{
-        console.log("im in submit handler");
-        console.log("seller",seller);
+        // console.log("im in submit handler");
+        // console.log("seller",seller);
         e.preventDefault();
          const formData = new FormData();
         formData.set("name",name);
@@ -85,8 +85,8 @@ const UpdateProduct = ({match,history}) => {
         images.forEach(image => {
             formData.append('images', image)
         })
-        console.log("formData",formData);
-        console.log("id",product._id)
+        // console.log("formData",formData);
+        // console.log("id",product._id)
         dispatch(updateProduct(product._id,formData))
        }
        const onChange = e =>{
@@ -98,7 +98,7 @@ const UpdateProduct = ({match,history}) => {
             const reader = new FileReader();
             reader.onload = ()=>{
                 if(reader.readyState === 2){
-                    console.log("reader",reader.result);
+                    // console.log("reader",reader.result);
                     setImagesPreview(oldArray=>[...oldArray,reader.result]);
                     setImages(oldArray=>[...oldArray,reader.result]);
                 }

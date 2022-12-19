@@ -15,15 +15,15 @@ const OrderList = ({history}) => {
     const {loading,error,orders} = useSelector(state=>state.allOrder)
  
     const { isDeleted } = useSelector(state => state.updateOrder)
-  
+    const { token } = useSelector(state => state.auth);
     useEffect(() => {
-        console.log("im in useEffect");
-       dispatch(getAllOrders())
+        // console.log("im in useEffect");
+       dispatch(getAllOrders(token))
        if(error){
         alert.error(error);
         dispatch(clearErrors());
     }
-    console.log("isDeleted",isDeleted);
+    // console.log("isDeleted",isDeleted);
     if (isDeleted) {
        
         alert.success('Order deleted successfully');
@@ -32,7 +32,7 @@ const OrderList = ({history}) => {
     }
 }, [error,alert,dispatch,isDeleted,history])
 const deleteOrderHandler = (id) => {
-    dispatch(deleteOrder(id))
+    dispatch(deleteOrder(id,token))
 }
     const setOrders = ()=>{
       const data = {

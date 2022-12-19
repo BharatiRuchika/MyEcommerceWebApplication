@@ -17,12 +17,12 @@ const UpdateUser = ({ history, match }) => {
 
     const { error, isUpdated } = useSelector(state => state.user);
     const { user } = useSelector(state => state.userDetails)
-
+    const { token } = useSelector(state => state.auth)
     const userId = match.params.id;
 
     useEffect(() => {
 
-        console.log(user && user._id !== userId);
+        // console.log(user && user._id !== userId);
         if (user && user._id !== userId) {
             dispatch(getUserDetails(userId))
         } else {
@@ -56,7 +56,7 @@ const UpdateUser = ({ history, match }) => {
         formData.set('email', email);
         formData.set('role', role);
 
-        dispatch(updateUser(user._id, formData))
+        dispatch(updateUser(user._id, formData,token))
     }
 
 

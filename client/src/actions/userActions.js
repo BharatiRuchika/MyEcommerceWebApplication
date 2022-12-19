@@ -20,11 +20,14 @@ DELETE_USER_FAIL,
 DELETE_USER_REQUEST,
 DELETE_USER_SUCCESS
 } from "../constants/userConstants";
+
+// import { getStripeData} from '../actions/stripeActions';
 import axios from "axios";
 
 //login
 export const login = (email,password)=>async(dispatch)=>{
-    console.log("im in login");
+    
+    // console.log("im in login");
    try{
      dispatch({
          type:LOGIN_REQUEST
@@ -34,16 +37,19 @@ export const login = (email,password)=>async(dispatch)=>{
           'Content-Type':'application/json'
       }
     }
-const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/auth/login",{email,password},config)
-console.log("loginuserdata",data);
+const {data} = await axios.post("http://localhost:3001/auth/login",{email,password},config)
+// console.log("loginuserdata",data);
 dispatch({
     type:LOGIN_SUCCESS,
     payload:data.user
 })
-
+dispatch({
+    type: "AUTH",
+    payload: { token: data.token },
+  });
    }catch(error){
-       console.log("im in login catch");
-       console.log("error",error.response.data.errMessage);
+    //    console.log("im in login catch");
+    //    console.log("error",error.response.data.errMessage);
     dispatch({
         type:LOGIN_FAIL,
         payload:error.response.data.errMessage
@@ -53,7 +59,7 @@ dispatch({
 
 //register user
 export const register = (userData)=>async(dispatch)=>{
-    console.log("im in register");
+    // console.log("im in register");
     try{
       dispatch({
           type:REGISTER_USER_REQUEST
@@ -63,8 +69,8 @@ export const register = (userData)=>async(dispatch)=>{
            'Content-Type':'multipart/form-data'
        }
      }
- const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/auth/register",userData,config)
- console.log("registerdata",data);
+ const {data} = await axios.post("http://localhost:3001/auth/register",userData,config)
+//  console.log("registerdata",data);
  dispatch({
      type:REGISTER_USER_SUCCESS,
      payload:data.user
@@ -81,22 +87,20 @@ export const register = (userData)=>async(dispatch)=>{
 
  //load user
  export const loadUser = ()=>async(dispatch)=>{
-     console.log("im in load user");
+    //  console.log("im in load user");
     try{
       dispatch({
           type:LOAD_USER_REQUEST
      })
     
- const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/me");
- console.log("loaduserdata",data);
-
+ const {data} = await axios.get("http://localhost:3001/auth/me");
  dispatch({
      type:LOAD_USER_SUCCESS,
      payload:data.user
  })
 // }
     }catch(error){
-      console.log("Error",error);
+    //   console.log("Error",error);
      dispatch({
          type:LOAD_USER_FAIL,
          payload:error.response.data.errMessage
@@ -106,15 +110,15 @@ export const register = (userData)=>async(dispatch)=>{
 
  //logout user
  export const logoutUser = ()=>async(dispatch)=>{
-    console.log("im in load user");
+    // console.log("im in load user");
    try{
-  const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/logout");
-console.log("logoutuserdata",data);
+  const {data} = await axios.get("http://localhost:3001/auth/logout");
+// console.log("logoutuserdata",data);
 dispatch({
     type:LOGOUT_SUCCESS
 })
 }catch(error){
-    console.log("logouterrpr",error);
+    // console.log("logouterrpr",error);
     dispatch({
         type:LOGOUT_FAIL,
         payload:error.response.data.errMessage
@@ -123,19 +127,22 @@ dispatch({
 }
 
 //register user
-export const updateProfile = (userData)=>async(dispatch)=>{
-    console.log("im in register");
+export const updateProfile = (userData,token)=>async(dispatch)=>{
+    // console.log("im in register");
+    console.log("im in update profile")
+    console.log("token",token)
     try{
       dispatch({
           type:UPDATE_PROFILE_REQUEST
      })
      const config={
-       headers:{
-           'Content-Type':'multipart/form-data'
-       }
-     }
- const {data} = await axios.put("https://my-ecommerce-web-application.vercel.app/auth/me/update",userData,config)
- console.log("userdata",data);
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
+ const {data} = await axios.put("http://localhost:3001/auth/me/update",userData,config)
+//  console.log("userdata",data);
  dispatch({
      type:UPDATE_PROFILE_SUCCESS,
      payload:data.success
@@ -150,26 +157,34 @@ export const updateProfile = (userData)=>async(dispatch)=>{
  }
 
 //update password
-export const updatePassword = (passwords)=>async(dispatch)=>{
+export const updatePassword = (passwords,token)=>async(dispatch)=>{
     console.log("im in update password");
+    console.log("token",token);
+    const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
     try{
       dispatch({
           type:UPDATE_PASSWORD_REQUEST
      })
      const config={
-       headers:{
-           'Content-Type':'application/json'
-       }
-     }
- const {data} = await axios.put("https://my-ecommerce-web-application.vercel.app/auth/password/updatepassword",passwords,config)
- console.log("userdata",data);
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
+ const {data} = await axios.put("http://localhost:3001/auth/password/updatepassword",passwords,config)
+//  console.log("userdata",data);
  dispatch({
      type:UPDATE_PASSWORD_SUCCESS,
      payload:data.success
  })
  
     }catch(error){
-        console.log("error",error.response);
+        // console.log("error",error.response);
      dispatch({
          type:UPDATE_PASSWORD_FAIL,
          payload:error.response.data.errMessage
@@ -179,7 +194,7 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
 
  //reset password
  export const resetPassword = (token,passwords)=>async(dispatch)=>{
-    console.log("im in new password");
+    // console.log("im in new password");
     try{
       dispatch({
           type:NEW_PASSWORD_REQUEST
@@ -189,15 +204,15 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
            'Content-Type':'application/json'
        }
      }
- const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/auth/password/reset/${token}`,passwords,config)
- console.log("userdata",data);
+ const {data} = await axios.put(`http://localhost:3001/auth/password/reset/${token}`,passwords,config)
+//  console.log("userdata",data);
  dispatch({
      type:NEW_PASSWORD_SUCCESS,
      payload:data.success
  })
  
     }catch(error){
-        console.log("error",error.response);
+        // console.log("error",error.response);
      dispatch({
          type:NEW_PASSWORD_FAIL,
          payload:error.response.data.errMessage
@@ -207,8 +222,8 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
 
   //forgot password
   export const forgotPassword = (email)=>async(dispatch)=>{
-    console.log("im in forgot password");
-    console.log("email",email);
+    // console.log("im in forgot password");
+    // console.log("email",email);
     try{
       dispatch({
           type:FORGOT_PASSWORD_REQUEST
@@ -218,15 +233,15 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
            'Content-Type':'application/json'
        }
      }
- const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/auth/password/forgot",email,config)
- console.log("userdata",data);
+ const {data} = await axios.post("http://localhost:3001/auth/password/forgot",email,config)
+//  console.log("userdata",data);
  dispatch({
      type:FORGOT_PASSWORD_SUCCESS,
      payload:data.message
  })
  
     }catch(error){
-        console.log("error",error.response);
+        // console.log("error",error.response);
      dispatch({
          type:FORGOT_PASSWORD_FAIL,
          payload:error.response.data.errMessage
@@ -234,15 +249,22 @@ export const updatePassword = (passwords)=>async(dispatch)=>{
     }
  }
 
- export const getAllUsers = ()=>async(dispatch)=>{
-    console.log("im in get users");
+ export const getAllUsers = (token)=>async(dispatch)=>{
+    console.log("im in getallusers",token);
+    // console.log("im in get users");
+    const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
    try{
      dispatch({
          type:ALL_USERS_REQUEST
     })
    
-const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/admin/users");
-console.log("Allusersdata",data);
+const {data} = await axios.get("http://localhost:3001/auth/admin/users",config);
+// console.log("Allusersdata",data);
 
 dispatch({
     type:ALL_USERS_SUCCESS,
@@ -250,8 +272,8 @@ dispatch({
 })
 // }
    }catch(error){
-       console.log("im in cathc");
-       console.log("error",error);
+    //    console.log("im in cathc");
+    //    console.log("error",error);
     dispatch({
         type:ALL_USERS_FAIL,
         payload:error.response.data.errMessage
@@ -260,18 +282,20 @@ dispatch({
 }
 
 
-export const updateUser = (id, userData) => async (dispatch) => {
+export const updateUser = (id, userData,token) => async (dispatch) => {
     try {
-
+console.log("im in update user");
+console.log("token",token);
         dispatch({ type: UPDATE_USER_REQUEST })
 
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization':`${token}`
             }
         }
 
-        const { data } = await axios.put(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`, userData, config)
+        const { data } = await axios.put(`http://localhost:3001/auth/admin/user/${id}`, userData, config)
 
         dispatch({
             type: UPDATE_USER_SUCCESS,
@@ -290,7 +314,7 @@ export const getUserDetails = (id) => async (dispatch) => {
     try {
 
     dispatch({ type: USER_DETAILS_REQUEST })
- const { data } = await axios.get(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`)
+ const { data } = await axios.get(`http://localhost:3001/auth/admin/user/${id}`)
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -307,13 +331,13 @@ export const getUserDetails = (id) => async (dispatch) => {
 
 // Delete user - ADMIN
 export const deleteUser = (id) => async (dispatch) => {
-    console.log("im in delete user")
-    console.log("id",id);
+    // console.log("im in delete user")
+    // console.log("id",id);
     try {
 
  dispatch({ type: DELETE_USER_REQUEST })
-  const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`);
-  console.log("deleteData",data);  
+  const { data } = await axios.delete(`http://localhost:3001/auth/admin/user/${id}`);
+//   console.log("deleteData",data);  
   dispatch({
             type: DELETE_USER_SUCCESS,
             payload: data.success

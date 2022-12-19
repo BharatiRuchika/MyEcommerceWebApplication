@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+
 const bodyParser = require('body-parser')
 var cloudinary = require("cloudinary");
 var logger = require('morgan');
@@ -22,13 +23,19 @@ const errorMiddleware = require('./middlewares/errors')
 // require("dotenv").config;
 
 var app = express();
-const cors = require("cors");
-const corsOptions = {
+app.use(cookieParser());
 
+const cors = require("cors");
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials:true,
+  optionSuccessStatus:200
+}));
+const corsOptions = {
   origin: true,
   credentials: true,
-
 };
+app.options("*" , cors(corsOptions));
 
 app.use(cors(corsOptions));
 // if (process.env.NODE_ENV !== 'PRODUCTION') require('dotenv').config({ path: 'backend/config/config.env' })
@@ -53,7 +60,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -66,7 +73,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
   })
 }
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/auth', authRouter);
@@ -93,6 +100,6 @@ app.use(function (err, req, res, next) {
 // app.listen(`${process.env.PORT}`,()=>console.log(`server started at ${process.env.PORT} in ${process.env.NODE_ENV}`
 // ));
 const PORT = 3000;
-app.listen(process.env.PORT || 3000, () => console.log(`server started at ${process.env.PORT}`));
+app.listen(process.env.PORT || 3001, () => console.log(`server started at ${process.env.PORT}`));
 // app.listen(3000,()=>console.log("Server started"))
 module.exports = app;

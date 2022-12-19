@@ -14,7 +14,7 @@ const Cart = ({ history }) => {
     const { cartItems } = useSelector(state => state.cart)
     const increaseQty = (id,quantity,stock)=>{
         const newQty = quantity+1;
-        console.log("stock",stock)
+        // console.log("stock",stock)
         if(newQty>stock)
         return
        dispatch(addItemsCart(id,newQty));
@@ -22,7 +22,7 @@ const Cart = ({ history }) => {
 
     const decreaseQty = (id,quantity,stock)=>{
         const newQty = quantity - 1;
-        console.log("stock",stock)
+        // console.log("stock",stock)
         if(newQty<1)
         return
        dispatch(addItemsCart(id,newQty));

@@ -36,7 +36,7 @@ export const authReducer = (state={user:{}},action)=>{
       case LOGIN_REQUEST:
         case REGISTER_USER_REQUEST:
        
-            console.log("im in load user request0");
+            // console.log("im in load user request0");
           return {
               loading:true,
               isAuthenticated:false
@@ -45,8 +45,8 @@ export const authReducer = (state={user:{}},action)=>{
       case LOGIN_SUCCESS:
         case REGISTER_USER_SUCCESS:
        
-            console.log("im in LOAD_USER_SUCCESS");
-            console.log("user",action.payload);
+            // console.log("im in LOAD_USER_SUCCESS");
+            // console.log("user",action.payload);
           return {
               ...state,
               loading:false,
@@ -76,8 +76,8 @@ export const authReducer = (state={user:{}},action)=>{
         
        case LOGIN_FAIL:
         case REGISTER_USER_FAIL:
-        console.log("im in login fail");
-        console.log(action.payload);
+        // console.log("im in login fail");
+        // console.log(action.payload);
            return {
             ...state,
             loading:false,
@@ -90,6 +90,10 @@ export const authReducer = (state={user:{}},action)=>{
                 ...state,
                 error:null
             }
+            case "AUTH":
+              // console.log("im in auth reducer");
+              // console.log("payload",action.payload.token);
+              return {...state,token:action.payload.token};
     default:
         return state;
   }
@@ -115,7 +119,7 @@ export const userReducer = (state={},action)=>{
       isUpdated:action.payload
      }
      case DELETE_USER_SUCCESS:
-       console.log("deletde",action.payload);
+      //  console.log("deletde",action.payload);
       return {
           ...state,
           loading: false,

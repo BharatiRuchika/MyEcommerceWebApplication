@@ -3,20 +3,21 @@ import { CREATE_ORDER_FAIL,CREATE_ORDER_SUCCESS,CREATE_ORDER_REQUEST,CLEAR_ERROR
     DELETE_ORDER_REQUEST,
    DELETE_ORDER_SUCCESS,
   DELETE_ORDER_FAIL } from "../constants/orderConstants";
-export const createOrder = (order)=>async(dispatch,getState)=>{
-    console.log("im in create order");
-    console.log("order",order);
+export const createOrder = (order,token)=>async(dispatch,getState)=>{
+    // console.log("im in create order");
+    // console.log("order",order);
+    const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization': `${token}`
+        }
+      }
     try{
        dispatch({
            type:CREATE_ORDER_REQUEST
        })
-       const config = {
-         headers:{
-             "Content-Type":"application/json"
-         }
-       }
-       const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/order/neworder",order,config);
-       console.log("order Data",data);
+       const {data} = await axios.post("http://localhost:3001/order/neworder",order,config);
+    //    console.log("order Data",data);
        dispatch({
            type:CREATE_ORDER_SUCCESS,
            payload:data
@@ -30,15 +31,23 @@ export const createOrder = (order)=>async(dispatch,getState)=>{
 }
 
 //get currently logged in user orders
-export const myOrders = ()=>async(dispatch,getState)=>{
-    console.log("im in myorder");
+export const myOrders = (token)=>async(dispatch,getState)=>{
+    console.log("im in myorders");
+    console.log("token",token);
     try{
        dispatch({
            type:MY_ORDERS_REQUEST
        })
+
+       const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization': `${token}`
+        }
+      }
        
-       const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/order/myorders");
-       console.log("data",data);
+       const {data} = await axios.get("http://localhost:3001/order/myorders",config);
+    //    console.log("data",data);
        dispatch({
            type:MY_ORDERS_SUCCESS,
            payload:data.orders
@@ -52,16 +61,22 @@ export const myOrders = ()=>async(dispatch,getState)=>{
 }
 
 //get specific order details
-export const orderDetails = (id)=>async(dispatch,getState)=>{
+export const orderDetails = (id,token)=>async(dispatch,getState)=>{
 
     console.log("im in order details");
+    console.log("token",token);
     try{
        dispatch({
            type:ORDER_DETAILS_REQUEST
        })
-       
-const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/order/singleorder/${id}`);
-       console.log("data",data);
+       const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization': `${token}`
+        }
+      }
+const {data} = await axios.get(`http://localhost:3001/order/singleorder/${id}`,config);
+    //    console.log("data",data);
        dispatch({
            type:ORDER_DETAILS_SUCCESS,
            payload:data.order
@@ -76,16 +91,23 @@ const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/
 
 
 //get all orders details
-export const getAllOrders = ()=>async(dispatch,getState)=>{
-
-    console.log("im in order details");
+export const getAllOrders = (token)=>async(dispatch,getState)=>{
+    
+    console.log("im in getAllOrders",token);
+    const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
+    // console.log("im in order details");
     try{
        dispatch({
            type:ALL_ORDERS_REQUEST
        })
        
-const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/order/admin/orders`);
-       console.log("data",data);
+const {data} = await axios.get(`http://localhost:3001/order/admin/orders`,config);
+    //    console.log("data",data);
        dispatch({
            type:ALL_ORDERS_SUCCESS,
            payload:data
@@ -99,18 +121,19 @@ const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/
 }
 
 //update order-admin
-export const updateOrder = (id,orderData)=>async(dispatch,getState)=>{
+export const updateOrder = (id,orderData,token)=>async(dispatch,getState)=>{
     try{
+        const config={
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':`${token}`
+            }
+          }
        dispatch({
            type:UPDATE_ORDER_REQUEST
        })
-       const config = {
-         headers:{
-             "Content-Type":"application/json"
-         }
-       }
-       const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/order/admin/orders/${id}`,orderData,config);
-       console.log("updateData",data);
+       const {data} = await axios.put(`http://localhost:3001/order/admin/orders/${id}`,orderData,config);
+    //    console.log("updateData",data);
        dispatch({
            type:UPDATE_ORDER_SUCCESS,
            payload:data.success
@@ -123,13 +146,19 @@ export const updateOrder = (id,orderData)=>async(dispatch,getState)=>{
     }
 }
 
-export const deleteOrder = (id) => async (dispatch) => {
+export const deleteOrder = (id,token) => async (dispatch) => {
     try {
+        const config={
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':`${token}`
+            }
+          }
 
         dispatch({ type: DELETE_ORDER_REQUEST })
 
-        const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/order/admin/orders/${id}`)
-   console.log("deleteData",data.success);
+        const { data } = await axios.delete(`http://localhost:3001/order/admin/orders/${id}`,config)
+//    console.log("deleteData",data.success);
         dispatch({
             type: DELETE_ORDER_SUCCESS,
             payload: data.success

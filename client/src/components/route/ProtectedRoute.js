@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import loader from 'sass-loader';
 const ProtectedRoute = ({ component: Component, ...rest }) => {
     const { isAdmin, isAuthenticated, user, loading } = useSelector(state => state.auth);
-    console.log("im in protected route");
-    console.log("isAuthenticated", isAuthenticated);
-    console.log("loading", loading);
+    // console.log("im in protected route");
+    // console.log("isAuthenticated", isAuthenticated);
+    // console.log("loading", loading);
     return (
         <>
             {loading === false && (<>

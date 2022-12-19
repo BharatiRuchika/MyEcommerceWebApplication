@@ -4,14 +4,14 @@ import Home from "./components/Home";
 import Productdetails from "./components/product/productdetails";
 // import {BrowserRouter as Router,Route} from "react-router-dom";
 import Profile from "./components/user/Profile";
-import {Route,Switch,useLocation,Redirect} from "react-router-dom";
-import {BrowserRouter} from "react-router-dom";
+import { Route, Switch, useLocation, Redirect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./components/route/ProtectedRoute";
 import Login from "./components/user/Login";
 import UpdateProfile from "./components/user/updateProfile";
 import Register from "./components/user/Register";
 import { loadUser } from './actions/userActions'
-import {useEffect,useState} from "react";
+import { useEffect, useState } from "react";
 import store from "./store";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/user/ForgotPassword";
@@ -37,77 +37,95 @@ import UsersList from "./components/admin/UsersList";
 import UpdateUser from './components/admin/UpdateUser';
 import ProductReviews from './components/admin/ProductReview'
 // import userEvent from "@testing-library/user-event";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 function App() {
-  const [stripeApiKey,setStripeApiKey] = useState("");
+  // const {stripeApiKey} = useSelector(state => state.stripe);
+  const [stripeApiKey, setStripeApiKey] = useState("");
+  const { user, isAuthenticated, loading, token } = useSelector(state => state.auth);
+
+  console.log("stripeApiKey",stripeApiKey)
+  // async function getStripeApiKey(){
+  // const {data} = await axios.get("http://localhost:3001/user/payment/stripeApi");
+  // console.log("stripeData",data)
+  // setStripeApiKey(data.stripeApiKey);
+  // }
   useEffect(() => {
-    console.log("im here");
-    store.dispatch(loadUser())
-    async function getStripeApiKey(){
-      const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/user/payment/stripeApi");
-      console.log("stripeData",data)
+    async function getData() {
+      console.log("app compo useefect");
+      // console.log("token",token);
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${token}`
+        }
+      }
+      const { data } = await axios.get("http://localhost:3001/user/payment/stripeApi", config);
+      console.log("stripeData", data);
       setStripeApiKey(data.stripeApiKey);
     }
-    getStripeApiKey();
-  }, [])
-
-  const { user, isAuthenticated, loading } = useSelector(state => state.auth)
-  // const {loading,user} = useSelector(state=>state.auth);
+    getData();
+  }, [isAuthenticated,token])
+  // useEffect(() => {
+  // console.log("im in app useeffect");
+  // store.dispatch(loadUser())
+  // setStripeApiKey1(stripeApiKey1);
+  // getStripeApiKey();
+  // },[isAuthenticated,stripeApiKey1])
   return (
     <BrowserRouter>
-    <div className="App">
-    <Header/>
-    {/* showing products routes */}
-    
-    <div className="container container-fluid">
-      <Route path="/" component={Home} exact></Route>
-      <Route path="/search/:keyword" component={Home} exact></Route>
-      <Route path="/product/:id" component={Productdetails} exact></Route>
-      <Route path="/cart" component={Cart} exact></Route>
-      
-      {/* confirm order routes */}
-     
-      <ProtectedRoute path="/shipping" component={Shipping} exact/>
-      <ProtectedRoute path="/confirm" exact component={ConfirmOrder}/>
-      <ProtectedRoute path="/success" component={OrderSuccess} exact></ProtectedRoute>
-  
-       {stripeApiKey && 
-              <Elements stripe={loadStripe(stripeApiKey)}> 
-        <ProtectedRoute path="/payment" component={Payment} />
-             </Elements> }
-        
-     
-     {/* Authenticate user routes */}
-     <Route path="/login" component={Login} exact></Route>
-      <Route path="/register" component={Register} exact/>
-      <Route path="/password/forgot" component={ForgotPassword} exact/>
-      <Route path="/password/reset/:token" component={NewPassword} exact/>
+      <div className="App">
+        <Header />
+        {/* showing products routes */}
 
-      {/* profile routes */}
-     
-      <ProtectedRoute path="/me" component={Profile} exact></ProtectedRoute>
-      <ProtectedRoute path="/me/update" component={UpdateProfile} exact/>
-      <ProtectedRoute path="/me/password" component={UpdatePassword} exact/>
-     
-     {/* order routes */}
-      
-      <ProtectedRoute path="/orders/me" component={ListOrders} exact/>
-      <ProtectedRoute path="/order/:id" component={OrderDetails} exact/>
-      </div>
-      {/* admin routes */}
-      <ProtectedRoute path="/dashboard" isAdmin={true} component={Dashboard} exact></ProtectedRoute>
-      <ProtectedRoute path="/admin/products" component={ProductList} exact/>
-      <ProtectedRoute path="/admin/product" component={NewProduct} exact/>
-      <ProtectedRoute path="/admin/orders" component={OrderList} exact/>
-      <ProtectedRoute path="/admin/product/:id" component={UpdateProduct} exact/>
-      <ProtectedRoute path="/admin/order/:id" component={ProcessOrder} exact/>
-      <ProtectedRoute path="/admin/users" component={UsersList} exact></ProtectedRoute>
-      <ProtectedRoute path="/admin/user/:id" isAdmin={true} component={UpdateUser} exact />
-      <ProtectedRoute path="/admin/reviews" isAdmin={true} component={ProductReviews} exact />
-      {!loading && (!isAuthenticated || user.role !== 'admin') && (
+        <div className="container container-fluid">
+          <Route path="/" component={Home} exact></Route>
+          <Route path="/search/:keyword" component={Home} exact></Route>
+          <Route path="/product/:id" component={Productdetails} exact></Route>
+          <Route path="/cart" component={Cart} exact></Route>
+
+          {/* confirm order routes */}
+
+          <ProtectedRoute path="/shipping" component={Shipping} exact />
+          <ProtectedRoute path="/confirm" exact component={ConfirmOrder} />
+          <ProtectedRoute path="/success" component={OrderSuccess} exact></ProtectedRoute>
+
+          {stripeApiKey &&
+            <Elements stripe={loadStripe(stripeApiKey)}>
+              <ProtectedRoute path="/payment" component={Payment} />
+            </Elements>}
+
+
+          {/* Authenticate user routes */}
+          <Route path="/login" component={Login} exact></Route>
+          <Route path="/register" component={Register} exact />
+          <Route path="/password/forgot" component={ForgotPassword} exact />
+          <Route path="/password/reset/:token" component={NewPassword} exact />
+
+          {/* profile routes */}
+
+          <ProtectedRoute path="/me" component={Profile} exact></ProtectedRoute>
+          <ProtectedRoute path="/me/update" component={UpdateProfile} exact />
+          <ProtectedRoute path="/me/password" component={UpdatePassword} exact />
+
+          {/* order routes */}
+
+          <ProtectedRoute path="/orders/me" component={ListOrders} exact />
+          <ProtectedRoute path="/order/:id" component={OrderDetails} exact />
+        </div>
+        {/* admin routes */}
+        <ProtectedRoute path="/dashboard" isAdmin={true} component={Dashboard} exact></ProtectedRoute>
+        <ProtectedRoute path="/admin/products" component={ProductList} exact />
+        <ProtectedRoute path="/admin/product" component={NewProduct} exact />
+        <ProtectedRoute path="/admin/orders" component={OrderList} exact />
+        <ProtectedRoute path="/admin/product/:id" component={UpdateProduct} exact />
+        <ProtectedRoute path="/admin/order/:id" component={ProcessOrder} exact />
+        <ProtectedRoute path="/admin/users" component={UsersList} exact></ProtectedRoute>
+        <ProtectedRoute path="/admin/user/:id" isAdmin={true} component={UpdateUser} exact />
+        <ProtectedRoute path="/admin/reviews" isAdmin={true} component={ProductReviews} exact />
+        {!loading && (!isAuthenticated || user.role !== 'admin') && (
           <Footer />
         )}
-    </div>
+      </div>
     </BrowserRouter>
   );
 }

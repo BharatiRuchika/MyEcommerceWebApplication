@@ -10,15 +10,16 @@ import { Link } from 'react-router-dom';
 const ListOrders = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
-    const {loading,error,orders} = useSelector(state=>state.myOrders)
+    const {loading,error,orders} = useSelector(state=>state.myOrders);
+    const {token} = useSelector(state=>state.auth)
     useEffect(() => {
-        console.log("im in useEffect");
-       dispatch(myOrders())
+        // console.log("im in useEffect");
+       dispatch(myOrders(token))
        if(error){
         alert.error(error);
         dispatch(clearErrors());
     }
-       console.log("im in list orders");
+    //    console.log("im in list orders");
     }, [error,alert,dispatch])
     
     const setOrders = ()=>{

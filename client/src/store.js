@@ -23,7 +23,7 @@ const reducer = combineReducers({
  userDetails:userDetailsReducer,
  productReviews: productReviewsReducer,
  newReview:newReviewReducers,
- review:reviewReducer
+ review:reviewReducer,
 }) 
 let initialState={
   cart:{

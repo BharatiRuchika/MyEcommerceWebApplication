@@ -33,6 +33,8 @@ const NewProduct = ({history}) => {
     const alert = useAlert();
     const dispatch = useDispatch();
     const {loading,error,success} = useSelector(state=>state.newProduct)
+    const { token } = useSelector((state) => state.auth);
+    // console.log("auth",auth);
     useEffect(() => {
        
        if(error){
@@ -44,10 +46,10 @@ const NewProduct = ({history}) => {
       alert.success("Product Created Successfully");
       dispatch({type:NEW_PRODUCT_RESET})
     }
-       console.log("im in list orders");
+      //  console.log("im in list orders");
     }, [error,alert,success,history,dispatch])
     const submitHandler = (e)=>{
-        console.log("im in submit handler");
+        // console.log("im in submit handler");
         e.preventDefault();
         const formData = new FormData();
         formData.set("name",name);
@@ -60,7 +62,7 @@ const NewProduct = ({history}) => {
             formData.append('images', image)
         })
         console.log("formData",formData);
-        dispatch(newProduct(formData))
+        dispatch(newProduct(formData,token))
        }
        const onChange = e =>{
         const files = Array.from(e.target.files);
@@ -70,7 +72,7 @@ const NewProduct = ({history}) => {
             const reader = new FileReader();
             reader.onload = ()=>{
                 if(reader.readyState === 2){
-                  console.log("reader",reader.result);
+                  // console.log("reader",reader.result);
                     setImagesPreview(oldArray=>[...oldArray,reader.result]);
                     setImages(oldArray=>[...oldArray,reader.result]);
                 }

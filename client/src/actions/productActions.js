@@ -1,18 +1,17 @@
 import axios from "axios";
 import {ALL_PRODUCTS_REQUEST,ALL_PRODUCTS_SUCCESS,ALL_PRODUCTS_FAIL,CLEAR_ERRORS,PRODUCTS_DETAILS_FAIL,PRODUCTS_DETAILS_SUCCESS,PRODUCTS_DETAILS_REQUEST,NEW_REVIEW_SUCCESS,NEW_REVIEW_REQUEST,NEW_REVIEW_FAIL,ADMIN_PRODUCTS_FAIL,ADMIN_PRODUCTS_REQUEST,ADMIN_PRODUCTS_SUCCESS, NEW_PRODUCT_REQUEST, NEW_PRODUCT_SUCCESS, NEW_PRODUCT_FAIL,DELETE_PRODUCT_FAIL,DELETE_PRODUCT_SUCCESS,DELETE_PRODUCT_REQUEST,UPDATE_PRODUCT_FAIL,UPDATE_PRODUCT_REQUEST,UPDATE_PRODUCT_SUCCESS,GET_REVIEWS_REQUEST,GET_REVIEWS_SUCCESS,GET_REVIEWS_FAIL,DELETE_REVIEW_REQUEST,DELETE_REVIEW_SUCCESS,DELETE_REVIEW_RESET,DELETE_REVIEW_FAIL} from "../constants/productConstants";
+
+import { useSelector } from "react-redux";
+
+
 export const getProducts = (keyword="",currentPage=1,price,category,rating=0)=>async (dispatch)=>{
-    console.log("im in get Products");
-    console.log("currentPage",currentPage);
-    console.log("keyword",keyword);
-    console.log("getcategory",category);
     try{
       dispatch({type:ALL_PRODUCTS_REQUEST})
-      let link = `https://my-ecommerce-web-application.vercel.app/products/getproducts?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${rating}`;
+      let link = `http://localhost:3001/products/getproducts?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${rating}`;
       if(category){
-        link = `https://my-ecommerce-web-application.vercel.app/products/getproducts?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${rating}`
+        link = `http://localhost:3001/products/getproducts?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${rating}`
       }
       const {data} = await axios.get(link);
-      console.log("productdata",data);
       dispatch({
           type:ALL_PRODUCTS_SUCCESS,
           payload:data
@@ -27,10 +26,10 @@ export const getProducts = (keyword="",currentPage=1,price,category,rating=0)=>a
 
 export const getProductDetails = (id)=>async (dispatch)=>{
     try{
-        console.log("im in product details actions");
+        // console.log("im in product details actions");
       dispatch({type:PRODUCTS_DETAILS_REQUEST})
-      const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/products/getproduct/${id}`);
-      console.log("actiondata",data.product);
+      const {data} = await axios.get(`http://localhost:3001/products/getproduct/${id}`);
+    //   console.log("actiondata",data.product);
       dispatch({
           type:PRODUCTS_DETAILS_SUCCESS,
           payload:data.product
@@ -43,24 +42,29 @@ export const getProductDetails = (id)=>async (dispatch)=>{
     }
 }
 
-export const newReview = (reviewData)=>async (dispatch)=>{
-    console.log("im in new review action");
-    console.log("reviewdata",reviewData);
+export const newReview = (formData,token)=>async (dispatch)=>{
+    // console.log("im in new review action");
+    // console.log("reviewdata",reviewData);
+    // const {token}  = useSelector(state => state.auth);
     try{
-        console.log("im in product details actions");
+        // console.log("im in product details actions");
       dispatch({type:NEW_REVIEW_REQUEST})
       const config={
         headers:{
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'Authorization': `${token}`
         }
       }
-      const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/products/review`,reviewData,config);
-      console.log("newreviewdata",data.success);
+
+
+      const {data} = await axios.put(`http://localhost:3001/products/review`,formData,config);
+    //   console.log("newreviewdata",data.success);
       dispatch({
           type:NEW_REVIEW_SUCCESS,
           payload:data.success
       })
     }catch(error){
+        console.log("Error",error);
         dispatch({
             type:NEW_REVIEW_FAIL,
             payload:error.response.data.errMessage
@@ -71,10 +75,10 @@ export const newReview = (reviewData)=>async (dispatch)=>{
 //get admin producrs
 export const getAdminProducts = ()=>async (dispatch)=>{
     try{
-        console.log("im in admin product details actions");
+        // console.log("im in admin product details actions");
       dispatch({type:ADMIN_PRODUCTS_REQUEST})
-      const {data} = await axios.get(`https://my-ecommerce-web-application.vercel.app/products/admin/getproducts`);
-      console.log("actiondata",data.product);
+      const {data} = await axios.get(`http://localhost:3001/products/admin/getproducts`);
+    //   console.log("actiondata",data.product);
       dispatch({
           type:ADMIN_PRODUCTS_SUCCESS,
           payload:data.products
@@ -88,19 +92,25 @@ export const getAdminProducts = ()=>async (dispatch)=>{
 }
 
 //create new product
-export const newProduct = (productData)=>async(dispatch)=>{
+export const newProduct = (productData,token)=>async(dispatch)=>{
+    // console.log("token",token);
    try{
-       console.log("product data",productData);
+    // console.log("product data",productData);
+    
      dispatch({type:NEW_PRODUCT_REQUEST});
      const config={
         headers:{
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
         }
       }
-     const {data} = await axios.post("https://my-ecommerce-web-application.vercel.app/products/admin/createProduct",productData,config);
-     console.log("newproductdata",data);
+      
+    const {data} = await axios.post("http://localhost:3001/products/admin/createProduct",productData,config);
+    console.log("newproductdata",data);
      dispatch({type:NEW_PRODUCT_SUCCESS, payload: data})
    }catch(error){
+    console.log("im in error");
+    console.log("error",error);
       dispatch({type:NEW_PRODUCT_FAIL,payload: error.response.data.errMessage})
    }
 }
@@ -108,12 +118,12 @@ export const newProduct = (productData)=>async(dispatch)=>{
 //delete product
 export const deleteProduct = (id)=>async(dispatch)=>{
     try{
-      console.log("im in delete product action");
-      console.log("deletId",id);
+    //   console.log("im in delete product action");
+    //   console.log("deletId",id);
       dispatch({type:DELETE_PRODUCT_REQUEST});
      
-      const {data} = await axios.delete(`https://my-ecommerce-web-application.vercel.app/products/admin/deleteProduct/${id}`);
-      console.log("newproductdata",data);
+      const {data} = await axios.delete(`http://localhost:3001/products/admin/deleteProduct/${id}`);
+    //   console.log("newproductdata",data);
       dispatch({type:DELETE_PRODUCT_SUCCESS, payload: data.success})
     }catch(error){
        dispatch({type:DELETE_PRODUCT_FAIL,payload: error.response.data.errMessage})
@@ -126,8 +136,8 @@ export const deleteProduct = (id)=>async(dispatch)=>{
         
       dispatch({type:UPDATE_PRODUCT_REQUEST});
      
-      const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/products/admin/updateProduct/${id}`,productData);
-      console.log("newproductdata",data);
+      const {data} = await axios.put(`http://localhost:3001/products/admin/updateProduct/${id}`,productData);
+    //   console.log("newproductdata",data);
       dispatch({type:UPDATE_PRODUCT_SUCCESS, payload: data.success})
     }catch(error){
        dispatch({type:UPDATE_PRODUCT_FAIL,payload: error.response.data.errMessage})
@@ -135,13 +145,19 @@ export const deleteProduct = (id)=>async(dispatch)=>{
  }
 
  // Get product reviews
-export const getProductReviews = (id) => async (dispatch) => {
+export const getProductReviews = (id,token) => async (dispatch) => {
     try {
-        console.log("im in review action");
+      const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
+        // console.log("im in review action");
         dispatch({ type: GET_REVIEWS_REQUEST })
 
-        const { data } = await axios.get(`https://my-ecommerce-web-application.vercel.app/products/reviews?id=${id}`)
-        console.log("reviewData",data);
+        const { data } = await axios.get(`http://localhost:3001/products/reviews?id=${id}`,config)
+        // console.log("reviewData",data);
         dispatch({
             type: GET_REVIEWS_SUCCESS,
             payload: data.reviews
@@ -162,7 +178,7 @@ export const deleteReview = (id, productId) => async (dispatch) => {
 
         dispatch({ type: DELETE_REVIEW_REQUEST })
 
-        const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/products/review?id=${id}&productId=${productId}`)
+        const { data } = await axios.delete(`http://localhost:3001/products/review?id=${id}&productId=${productId}`)
 
         dispatch({
             type: DELETE_REVIEW_SUCCESS,

@@ -12,11 +12,12 @@ const UsersList = ({history}) => {
     const alert = useAlert();
     const dispatch = useDispatch();
     const {loading,error,users} = useSelector(state=>state.allUsers)
-    const { isDeleted } = useSelector(state => state.user)
-    console.log("final deleted",isDeleted);
+    const { isDeleted } = useSelector(state => state.user);
+    const { token } = useSelector(state => state.auth);
+    // console.log("final deleted",isDeleted);
     useEffect(() => {
-        console.log("im in useEffect");
-        dispatch(getAllUsers())
+        // console.log("im in useEffect");
+        dispatch(getAllUsers(token))
         if(error){
             alert.error(error);
             dispatch(clearErrors());

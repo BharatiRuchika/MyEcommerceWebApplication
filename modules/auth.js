@@ -61,7 +61,7 @@ exports.registerUser = async (req, res, next) => {
     }
 }
 //Login User
-exports.LoginUser = catchAsyncErrors(async (req, res, next) => {
+exports.LoginUser = async (req, res, next) => {
     const { email, password } = req.body;
     console.log(email, password);
     if (!email || !password) {
@@ -81,7 +81,7 @@ exports.LoginUser = catchAsyncErrors(async (req, res, next) => {
     // res.send({success:true,token});
     sendToken(user, 200, res);
 
-})
+}
 //logout user
 exports.Logout = async (req, res, next) => {
     try {
@@ -109,7 +109,7 @@ exports.forgetPassword = async (req, res, next) => {
     const resetToken = user.getResetPasswordToken();
     await user.save({ validateBeforeSave: false });
     //Create password reset url
-    const resetUrl = `http://localhost:3001/password/reset/${resetToken}`;
+    const resetUrl = `http://localhost:3000/password/reset/${resetToken}`;
     const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this then please ignore`;
     try {
         await sendEmail({

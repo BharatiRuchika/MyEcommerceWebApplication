@@ -15,7 +15,7 @@ const ProductList = ({history}) => {
     const {loading,error,products} = useSelector(state=>state.products)
     const {error:deleteError,isDeleted} = useSelector(state=>state.deleteProduct)
     useEffect(() => {
-        console.log("im in useEffect");
+        // console.log("im in useEffect");
        dispatch(getAdminProducts())
        if(error){
         alert.error(error);
@@ -30,7 +30,7 @@ const ProductList = ({history}) => {
       dispatch({type:DELETE_PRODUCT_RESET});
       history.push("/admin/products");
      }
-       console.log("im in list orders");
+    //    console.log("im in list orders");
     }, [error,alert,dispatch,deleteError,history,isDeleted])
     
     const setProducts = ()=>{
@@ -84,8 +84,8 @@ const ProductList = ({history}) => {
         return data;
     }
     const deleteProductHandler=(id)=>{
-        console.log("im in delete product handler");
-        console.log("id",id);
+        // console.log("im in delete product handler");
+        // console.log("id",id);
        dispatch(deleteProduct(id));
     }
     return (

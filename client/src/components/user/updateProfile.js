@@ -15,7 +15,7 @@ const UpdateProfile = ({history}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state=>state.auth);
     const {isUpdated,loading,error} = useSelector(state=>state.user);
-   
+    const {token} = useSelector(state=>state.auth);
     useEffect(() => {
         if(user){
             setName(user.name);
@@ -42,7 +42,7 @@ const UpdateProfile = ({history}) => {
      formData.set("email",email);
    
      formData.set("avatar",avatar);
-     dispatch(updateProfile(formData))
+     dispatch(updateProfile(formData,token))
     }
     const onChange = e =>{
       

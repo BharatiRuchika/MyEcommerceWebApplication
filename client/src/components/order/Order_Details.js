@@ -7,19 +7,20 @@ import { orderDetails,clearErrors } from '../../actions/orderActions';
 import { Link } from 'react-router-dom';
 
 const Order_Details = ({match}) => {
-    console.log("im in oreder details");
+    // console.log("im in oreder details");
     const {error,loading,order={}} = useSelector(state=>state.orderDetails);
-    console.log("order",order);
+    const {token} = useSelector(state=>state.auth);
+    // console.log("order",order);
     const {ShippingInfo,orderItems,paymentInfo,user,totalPrice,orderStatus} = order;
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log("im in useEffect");
-       dispatch(orderDetails(match.params.id))
+        // console.log("im in useEffect");
+       dispatch(orderDetails(match.params.id,token))
        if(error){
         alert.error(error);
         dispatch(clearErrors());
     }
-       console.log("im in list orders");
+    //    console.log("im in list orders");
     }, [error,alert,dispatch,match.params.id])
     const shippingDetails = ShippingInfo && `${ShippingInfo.address},${ShippingInfo.city},${ShippingInfo.postalCode},${ShippingInfo.country}`;
     const isPaid = paymentInfo && paymentInfo.status=="succeeded" ? true : false;

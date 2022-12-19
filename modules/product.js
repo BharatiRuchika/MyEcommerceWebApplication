@@ -33,6 +33,8 @@ exports.createProduct = async (req, res) => {
 }
 //get all products
 exports.getProducts = async (req, res, next) => {
+  console.log("im in get products");
+  console.log("query",req.query);
   try {
     const resPerPage = 4;
     const productsCount = await Product.countDocuments();
@@ -169,6 +171,7 @@ exports.createProductReview = async (req, res) => {
       product.numOfReviews = product.reviews.length;
     }
     product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+    console.log("ratings",product.ratings);
     await product.save({ validateBeforeSave: false });
     res.status(200).json({
       success: true
