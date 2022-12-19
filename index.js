@@ -31,10 +31,7 @@ const cors = require("cors");
 //   credentials:true,
 //   optionSuccessStatus:200
 // }));
-const corsOptions = {
-  origin: true,
-  credentials: true,
-};
+
 app.options("*" , cors(corsOptions));
 
 app.use(cors(corsOptions));
@@ -47,6 +44,13 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
+
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 //setting cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
