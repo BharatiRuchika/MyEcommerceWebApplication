@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@lib/base64-vlq": "^0.1.1",
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.22.0",
     "@testing-library/jest-dom": "^5.11.6",
@@ -52,5 +53,4 @@
       "last 1 safari version"
     ]
   }
-  
 }

@@ -44,10 +44,9 @@ function App() {
     console.log("im here");
     store.dispatch(loadUser())
     async function getStripeApiKey(){
-      const {data} = await axios.get("user/payment/stripeApi");
+      const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/user/payment/stripeApi");
       console.log("stripeData",data)
       setStripeApiKey(data.stripeApiKey);
-     
     }
     getStripeApiKey();
   }, [])
