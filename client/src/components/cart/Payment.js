@@ -60,7 +60,7 @@ const Payment = ({ history }) => {
       }
     }
     // res = await axios.post('/api/v1/payment/process', paymentData, config)
-    res = await axios.post("http://localhost:3001/user/payment", paymentData, config);
+    res = await axios.post("https://my-ecommerce-web-application.vercel.app/user/payment", paymentData, config);
     // console.log("res", res);
     const clientSecret = res.data.client_secret;
     if (!stripe || !elements) {
