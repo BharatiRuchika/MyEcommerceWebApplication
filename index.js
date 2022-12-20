@@ -31,10 +31,6 @@ const cors = require("cors");
 //   credentials:true,
 //   optionSuccessStatus:200
 // }));
-
-app.options("*" , cors(corsOptions));
-
-app.use(cors(corsOptions));
 // if (process.env.NODE_ENV !== 'PRODUCTION') require('dotenv').config({ path: 'backend/config/config.env' })
 console.log("port", process.env.PORT);
 app.use(function (req, res, next) {
@@ -49,7 +45,7 @@ const corsOptions = {
   origin: true,
   credentials: true,
 };
-
+app.options("*" , cors(corsOptions));
 app.use(cors(corsOptions));
 //setting cloudinary
 cloudinary.config({
