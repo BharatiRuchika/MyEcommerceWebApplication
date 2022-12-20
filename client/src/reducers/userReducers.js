@@ -38,6 +38,7 @@ export const authReducer = (state={user:{}},action)=>{
        
             // console.log("im in load user request0");
           return {
+            ...state,
               loading:true,
               isAuthenticated:false
           }
@@ -55,7 +56,7 @@ export const authReducer = (state={user:{}},action)=>{
           }
         case LOAD_USER_FAIL:
             return {
-              
+              ...state,
                 loading: false,
                 isAuthenticated: false,
                 user: null,

@@ -12,7 +12,8 @@ import { DELETE_PRODUCT_RESET } from '../../constants/productConstants';
 const ProductList = ({history}) => {
     const alert = useAlert();
     const dispatch = useDispatch();
-    const {loading,error,products} = useSelector(state=>state.products)
+    const {loading,error,products} = useSelector(state=>state.products);
+    const {token} = useSelector(state=>state.auth)
     const {error:deleteError,isDeleted} = useSelector(state=>state.deleteProduct)
     useEffect(() => {
         // console.log("im in useEffect");
@@ -86,7 +87,7 @@ const ProductList = ({history}) => {
     const deleteProductHandler=(id)=>{
         // console.log("im in delete product handler");
         // console.log("id",id);
-       dispatch(deleteProduct(id));
+       dispatch(deleteProduct(id,token));
     }
     return (
        <>

@@ -24,7 +24,7 @@ const UpdateUser = ({ history, match }) => {
 
         // console.log(user && user._id !== userId);
         if (user && user._id !== userId) {
-            dispatch(getUserDetails(userId))
+            dispatch(getUserDetails(userId,token))
         } else {
             setName(user.name);
             setEmail(user.email);

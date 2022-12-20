@@ -28,7 +28,7 @@ const UpdateProfile = ({history}) => {
        }
        if(isUpdated){
            alert.success("user updated successfully");
-           dispatch(loadUser());
+           dispatch(loadUser(token));
            history.push("/me");
            dispatch({
                type:UPDATE_PROFILE_RESET

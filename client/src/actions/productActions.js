@@ -116,13 +116,18 @@ export const newProduct = (productData,token)=>async(dispatch)=>{
 }
 
 //delete product
-export const deleteProduct = (id)=>async(dispatch)=>{
+export const deleteProduct = (id,token)=>async(dispatch)=>{
     try{
     //   console.log("im in delete product action");
     //   console.log("deletId",id);
       dispatch({type:DELETE_PRODUCT_REQUEST});
-     
-      const {data} = await axios.delete(`https://my-ecommerce-web-application.vercel.app/products/admin/deleteProduct/${id}`);
+      const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
+      const {data} = await axios.delete(`https://my-ecommerce-web-application.vercel.app/products/admin/deleteProduct/${id}`,config);
     //   console.log("newproductdata",data);
       dispatch({type:DELETE_PRODUCT_SUCCESS, payload: data.success})
     }catch(error){
@@ -131,12 +136,17 @@ export const deleteProduct = (id)=>async(dispatch)=>{
  }
 
  //update product
- export const updateProduct = (id,productData)=>async(dispatch)=>{
+ export const updateProduct = (id,productData,token)=>async(dispatch)=>{
     try{
-        
+      const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
       dispatch({type:UPDATE_PRODUCT_REQUEST});
      
-      const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/products/admin/updateProduct/${id}`,productData);
+      const {data} = await axios.put(`https://my-ecommerce-web-application.vercel.app/products/admin/updateProduct/${id}`,productData,config);
     //   console.log("newproductdata",data);
       dispatch({type:UPDATE_PRODUCT_SUCCESS, payload: data.success})
     }catch(error){
@@ -173,12 +183,17 @@ export const getProductReviews = (id,token) => async (dispatch) => {
 }
 
 // Delete product review
-export const deleteReview = (id, productId) => async (dispatch) => {
+export const deleteReview = (id, productId,token) => async (dispatch) => {
     try {
 
         dispatch({ type: DELETE_REVIEW_REQUEST })
-
-        const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/products/review?id=${id}&productId=${productId}`)
+        const config={
+          headers:{
+              'Content-Type':'application/json',
+              'Authorization':`${token}`
+          }
+        }
+        const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/products/review?id=${id}&productId=${productId}`,config)
 
         dispatch({
             type: DELETE_REVIEW_SUCCESS,

@@ -44,7 +44,7 @@ const Header=()=>{
           </span>
         </Link>}
 
-        {user ? (
+        {user && Object.keys(user).length!=0 ? (
           <div className="ml-4 dropdown d-inline">
              <Link to="#!" className="btn dropdown-toggle text-white mr-4" type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -58,7 +58,7 @@ const Header=()=>{
 <span>{user && user.name}</span>
 </Link>
 <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
-{user && user.role==='admin' ?
+{user && Object.keys(user).length!=0 && user.role==='admin' ?
 <>
   <Link to="/dashboard" className="dropdown-item">Dashboard</Link>
   <Link to="/me" className="dropdown-item">Profile</Link>

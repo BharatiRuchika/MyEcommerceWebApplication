@@ -29,7 +29,7 @@ const UsersList = ({history}) => {
     }
 }, [error,alert,dispatch,isDeleted,history])
 const deleteUserHandler = (id) => {
-    dispatch(deleteUser(id))
+    dispatch(deleteUser(id,token))
 }
     const setUsers = ()=>{
       const data = {

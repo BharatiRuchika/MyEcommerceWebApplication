@@ -86,14 +86,19 @@ export const register = (userData)=>async(dispatch)=>{
  }
 
  //load user
- export const loadUser = ()=>async(dispatch)=>{
+ export const loadUser = (token)=>async(dispatch)=>{
     //  console.log("im in load user");
     try{
       dispatch({
           type:LOAD_USER_REQUEST
      })
-    
- const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/me");
+     const config={
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`${token}`
+        }
+      }
+ const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/me",config);
  dispatch({
      type:LOAD_USER_SUCCESS,
      payload:data.user
@@ -264,7 +269,7 @@ export const updatePassword = (passwords,token)=>async(dispatch)=>{
     })
    
 const {data} = await axios.get("https://my-ecommerce-web-application.vercel.app/auth/admin/users",config);
-// console.log("Allusersdata",data);
+console.log("Allusersdata",data);
 
 dispatch({
     type:ALL_USERS_SUCCESS,
@@ -272,8 +277,8 @@ dispatch({
 })
 // }
    }catch(error){
-    //    console.log("im in cathc");
-    //    console.log("error",error);
+       console.log("im in cathc");
+       console.log("error",error);
     dispatch({
         type:ALL_USERS_FAIL,
         payload:error.response.data.errMessage
@@ -310,11 +315,17 @@ console.log("token",token);
     }
 }
 
-export const getUserDetails = (id) => async (dispatch) => {
+export const getUserDetails = (id,token) => async (dispatch) => {
     try {
-
+console.log("token",token)
+const config = {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization':`${token}`
+    }
+}
     dispatch({ type: USER_DETAILS_REQUEST })
- const { data } = await axios.get(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`)
+ const { data } = await axios.get(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`,config)
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -330,13 +341,18 @@ export const getUserDetails = (id) => async (dispatch) => {
 }
 
 // Delete user - ADMIN
-export const deleteUser = (id) => async (dispatch) => {
+export const deleteUser = (id,token) => async (dispatch) => {
     // console.log("im in delete user")
     // console.log("id",id);
     try {
-
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':`${token}`
+            }
+        }
  dispatch({ type: DELETE_USER_REQUEST })
-  const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`);
+  const { data } = await axios.delete(`https://my-ecommerce-web-application.vercel.app/auth/admin/user/${id}`,config);
 //   console.log("deleteData",data);  
   dispatch({
             type: DELETE_USER_SUCCESS,

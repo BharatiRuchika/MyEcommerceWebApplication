@@ -20,7 +20,7 @@ const UpdateProduct = ({match,history}) => {
     const alert = useAlert();
     const dispatch = useDispatch();
     const {error,product} = useSelector(state=>state.productDetails)
-  
+    const {token} = useSelector(state=>state.auth)
     const {loading,error:updateError,isUpdated} = useSelector(state=>state.deleteProduct);
     const productId = match.params.id;
     // const productId = match.params.id;
@@ -87,7 +87,7 @@ const UpdateProduct = ({match,history}) => {
         })
         // console.log("formData",formData);
         // console.log("id",product._id)
-        dispatch(updateProduct(product._id,formData))
+        dispatch(updateProduct(product._id,formData,token))
        }
        const onChange = e =>{
         const files = Array.from(e.target.files);
