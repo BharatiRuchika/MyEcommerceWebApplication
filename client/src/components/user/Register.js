@@ -26,17 +26,13 @@ const Register = ({history}) => {
        }
     }, [dispatch,alert,isAuthenticated,error,history])
     const submitHandler = (e)=>{
-     e.preventDefault();
-     const formData = new FormData();
-    
+      e.preventDefault();
+      const formData = new FormData();
       formData.set("avatar",avatarPreview);
-     
-    
-     formData.set("name",name);
-     formData.set("email",email);
-     formData.set("password",password);
-   
-     dispatch(register(formData))
+      formData.set("name",name);
+      formData.set("email",email);
+      formData.set("password",password);
+      dispatch(register(formData))
     }
     const onChange = e =>{
         if(e.target.name === "avatar"){
@@ -99,7 +95,7 @@ const Register = ({history}) => {
                               src={avatarPreview}
                               className='rounded-circle'
                               alt='Avatar Preview'
-                          />
+                            />
                       </figure>
                   </div>
                   <div className='custom-file'>
